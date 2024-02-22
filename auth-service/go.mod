@@ -9,7 +9,10 @@ require (
 	golang.org/x/crypto v0.19.0
 )
 
+require github.com/felixge/httpsnoop v1.0.3 // indirect
+
 require (
+	github.com/gorilla/handlers v1.5.2
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect

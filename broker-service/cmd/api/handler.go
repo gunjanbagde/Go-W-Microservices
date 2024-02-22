@@ -51,7 +51,7 @@ func authenticate(w http.ResponseWriter, authpayload AuthPayload) {
 
 	jsonData, _ := json.MarshalIndent(authpayload, "", "\t")
 
-	request, err := http.NewRequest("POST", "http://localhost:8081/authenticate", bytes.NewBuffer(jsonData))
+	request, err := http.NewRequest("POST", "http://authentication-service/authenticate", bytes.NewBuffer(jsonData))
 	if err != nil {
 		errorJson(w, err)
 		return
@@ -75,7 +75,7 @@ func authenticate(w http.ResponseWriter, authpayload AuthPayload) {
 
 	var jsonFromSvc jsonResponse
 
-	err = json.NewDecoder(request.Body).Decode(&jsonFromSvc)
+	err = json.NewDecoder(response.Body).Decode(&jsonFromSvc)
 	if err != nil {
 		errorJson(w, err)
 		return

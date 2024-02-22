@@ -38,5 +38,6 @@ func Authenticate(u *data.User,w http.ResponseWriter, r *http.Request) {
 		Message: fmt.Sprintf("Logged in user %s", user.Email),
 		Data:    user,
 	}
+	fmt.Println(payload)
 	WriteJson(w, http.StatusAccepted, payload)
 }

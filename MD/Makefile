@@ -1,6 +1,6 @@
 FRONT_END_BINARY=frontApp
 BROKER_BINARY=brokerApp
-BROKER_BINARY=authApp
+AUTH_BINARY=authApp
 
 ## up: starts all containers in the background without forcing build
 up:
@@ -30,8 +30,8 @@ build_broker:
 
 ## build_auth: builds the auth binary as a linux executable
 build_auth:
-	@echo "Building broker binary..."
-	cd ../broker-service && env GOOS=linux CGO_ENABLED=0 go build -o ${AUTH_BINARY} ./cmd/api
+	@echo "Building auth binary..."
+	cd ../auth-service && env GOOS=linux CGO_ENABLED=0 go build -o ${AUTH_BINARY} ./cmd/api
 	@echo "Done!"
 
 ## build_front: builds the frone end binary

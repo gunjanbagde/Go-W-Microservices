@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	// "os"
+
+	"os"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
 	_ "github.com/jackc/pgconn"
@@ -21,8 +23,6 @@ import (
 // 	User data.Models
 // }
 
-
-
 func main() {
 
 	log.Println("Starting authentication service")
@@ -34,10 +34,16 @@ func main() {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/authenticate", func(w http.ResponseWriter, r *http.Request) { Authenticate(&models.User, w, r)}).Methods("POST")
+	cors := handlers.CORS(
+		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+		handlers.AllowedOrigins([]string{"*"}),
+		handlers.AllowCredentials(),
+	)
 
-	fmt.Println("Server is running on :8081")
-	err := http.ListenAndServe(":8081", r)
+	r.HandleFunc("/authenticate", func(w http.ResponseWriter, r *http.Request) { Authenticate(&models.User, w, r) }).Methods("POST")
+
+	fmt.Println("Server is running on :80")
+	err := http.ListenAndServe(":80", cors(r))
 	if err != nil {
 		log.Panic(err)
 	}
@@ -60,8 +66,8 @@ func OpenDB(dsn string) (*sql.DB, error) {
 }
 
 func connectToDb() *sql.DB {
-	// dsn := os.Getenv("DSN")
-	dsn:="host=localhost port=5432 user=postgres password=password dbname=users sslmode=disable timezone=UTC connect_timeout=5"
+	dsn := os.Getenv("DSN")
+	// dsn := "host=localhost port=5432 user=postgres password=password dbname=users sslmode=disable timezone=UTC connect_timeout=5"
 	counts := 0
 
 	for {
